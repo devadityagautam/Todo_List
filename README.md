@@ -16,7 +16,6 @@ It uses **Thymeleaf** for the frontend and **Spring Security** for authenticatio
 -  **Task Management**
   - Add new tasks
   - View all tasks
-  - Edit existing tasks
   - Delete completed or unwanted tasks
   - Mark tasks as completed
 
@@ -42,5 +41,4 @@ It uses **Thymeleaf** for the frontend and **Spring Security** for authenticatio
 
 
 
-git clone https://github.com/devadityagautam/todolist.git
-cd todolist
+
