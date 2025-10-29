@@ -42,5 +42,5 @@ It uses **Thymeleaf** for the frontend and **Spring Security** for authenticatio
 
 
 
-git clone https://github.com/your-username/todolist.git
+git clone https://github.com/devadityagautam/todolist.git
 cd todolist
