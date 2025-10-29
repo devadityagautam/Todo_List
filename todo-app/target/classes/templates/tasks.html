@@ -1,0 +1,236 @@
+<!--
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+          crossorigin="anonymous">
+    <style>
+        .task-completed {
+            text-decoration: line-through;
+            color: #6c757d !important;
+        }
+        .icon-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .icon-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+&lt;!&ndash;<body class="container mt-5">
+
+<h1 class="text-center mb-5">📝 Todo Application</h1>
+
+<form action="/" method="post" class="mb-4">
+    <div class="input-group">
+        <input class="form-control" type="text" name="title" placeholder="Add a new task..." required>
+        <button class="btn btn-success" type="submit">➕ Add</button>
+    </div>
+</form>&ndash;&gt;
+<body class="container mt-5">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📝 Todo Application</h1>
+    <div>
+        <span class="me-3">Welcome, <strong th:text="${username}"></strong>!</span>
+        <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+    </div>
+</div>
+
+<form action="/tasks" method="post" class="mb-4">
+    <div class="input-group">
+        <input class="form-control" type="text" name="title" placeholder="Add a new task..." required>
+        <button class="btn btn-success" type="submit">➕ Add</button>
+    </div>
+</form>
+
+&lt;!&ndash; same list code as before &ndash;&gt;
+
+
+<div class="list-group">
+    <th:block th:each="task : ${tasks}">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <span th:text="${task.title}"
+                      th:classappend="${task.completed} ? 'task-completed me-3' : 'me-3'"></span>
+                <span th:if="${task.completed}" class="text-success">✔️</span>
+            </div>
+            <div>
+                <a th:href="@{'/' + ${task.id} + '/toggle'}"
+                   th:title="${task.completed} ? 'Mark as Incomplete' : 'Mark as Complete'"
+                   class="icon-btn text-primary me-2">
+                    <span th:text="${task.completed} ? '↩️' : '✅'"></span>
+                </a>
+                <a th:href="@{'/' + ${task.id} + '/delete'}"
+                   class="icon-btn text-danger"
+                   title="Delete Task">
+                    🗑️
+                </a>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Tasks - ToDo App</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+
+    <style>
+        body {
+          background: linear-gradient(to right, #8360c3, #2ebf91);
+          color: #fff;
+          font-family: "Poppins", sans-serif;
+          min-height: 100vh;
+        }
+
+        .task-container {
+          max-width: 700px;
+          margin: 50px auto;
+          background-color: #ffffff22;
+          border-radius: 20px;
+          padding: 30px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+          backdrop-filter: blur(12px);
+        }
+
+        h2 {
+          text-align: center;
+          font-weight: 600;
+          color: #fff;
+          margin-bottom: 25px;
+        }
+
+        .welcome {
+          text-align: center;
+          font-size: 1.6rem;
+          font-weight: 500;
+          margin-bottom: 20px;
+        }
+
+        .welcome span {
+          font-weight: 600;
+          color: #ffd369;
+        }
+
+        .task-item {
+          background: #ffffff33;
+          border-radius: 12px;
+          padding: 15px 20px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: transform 0.2s ease;
+        }
+
+        .task-item:hover {
+          transform: scale(1.02);
+        }
+
+        .task-title {
+          font-size: 1.1rem;
+        }
+
+        .completed {
+          text-decoration: line-through;
+          color: #a3ffd3;
+        }
+
+        .icon-btn {
+          border: none;
+          background: none;
+          font-size: 1.3rem;
+          cursor: pointer;
+        }
+
+        .logout-btn {
+          display: inline-block;
+          background-color: #ff6b6b;
+          color: white;
+          padding: 8px 16px;
+          border-radius: 10px;
+          text-decoration: none;
+          transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+          background-color: #ff4757;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container task-container">
+    <h2>📝 My ToDo List</h2>
+
+    <div class="welcome">
+        Welcome, <span th:text="${username}">User</span> 👋
+        <a href="/logout" class="logout-btn ms-3">Logout</a>
+    </div>
+
+    <form action="/tasks" method="post" class="d-flex mb-4">
+        <input
+                type="text"
+                name="title"
+                class="form-control me-2"
+                placeholder="Enter a new task..."
+                required
+        />
+        <button type="submit" class="btn btn-light fw-semibold">
+            Add Task
+        </button>
+    </form>
+
+    <div th:if="${tasks.size() == 0}" class="text-center text-light">
+        <p>No tasks yet! Start by adding one above 🚀</p>
+    </div>
+
+    <div th:each="task : ${tasks}" class="task-item">
+      <span
+              th:text="${task.title}"
+              th:classappend="${task.completed} ? 'completed' : ''"
+              class="task-title"
+      ></span>
+
+        <div>
+            <a
+                    th:href="@{'/tasks/' + ${task.id} + '/toggle'}"
+                    th:title="${task.completed} ? 'Mark as Incomplete' : 'Mark as Complete'"
+                    class="icon-btn text-light me-3"
+            >
+                <span th:text="${task.completed} ? '↩️' : '✅'"></span>
+            </a>
+            <a
+                    th:href="@{'/tasks/' + ${task.id} + '/delete'}"
+                    class="icon-btn text-danger"
+                    title="Delete Task"
+            >
+                🗑️
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
